@@ -324,12 +324,51 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        // Inisialisasi global untuk Select2
         $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap-5',
-                placeholder: $(this).data('placeholder')
-            });
+            // Fungsi untuk mengambil dan mengisi data departemen dari API
+            function loadDepartments() {
+                // GANTI URL INI dengan alamat API departemen Anda
+                const apiUrl = 'https://script.google.com/macros/s/AKfycbx2NdAqAa8XFwR97UVAIfb1bqfvy0SLf3B126ixsqEWmm-t19aGFAaxqmv4xGuOjZ_Qgw/exec?callback=myFunction';
+                const departmentSelect = $('#department_id');
+
+                $.ajax({
+                    url: apiUrl,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // Hapus opsi statis yang ada (kecuali yang pertama/placeholder)
+                        departmentSelect.find('option:not(:first)').remove();
+
+                        // Tambahkan setiap departemen dari API sebagai opsi baru
+                        data.forEach(function(department) {
+                            const newOption = new Option(department['Nama Departemen'], department['Kode Departemen'], false, false);
+                            departmentSelect.append(newOption);
+                        });
+
+                        // Inisialisasi Select2 setelah opsi ditambahkan
+                        initializeSelect2();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error saat memuat departemen:', textStatus, errorThrown);
+                        // Pesan ini akan tetap muncul jika masalah CORS belum diperbaiki di Google Script
+                        if (textStatus === 'error' && jqXHR.status === 0) {
+                            console.error('Ini kemungkinan besar adalah error CORS. Pastikan server API (Google Script) sudah mengizinkan akses dari origin Anda.');
+                        }
+                        // Jika gagal, tetap inisialisasi Select2 dengan data yang ada
+                        initializeSelect2();
+                    }
+                });
+            }
+
+            // Fungsi untuk inisialisasi Select2
+            function initializeSelect2() {
+                $('.select2').select2({
+                    theme: 'bootstrap-5',
+                    placeholder: $(this).data('placeholder')
+                });
+            }
+
+            loadDepartments();
         });
 
         // Script untuk follow-up WhatsApp
