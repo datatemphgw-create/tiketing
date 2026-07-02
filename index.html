@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Dukungan IT</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Select2 CSS with Bootstrap 5 Theme -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <!-- Pastikan file style.css berada di path yang benar, contoh: ./css/style.css -->
+    <link href="css/style.css" rel="stylesheet" />
+
+    <style>
+        /* Style untuk kartu di modal Internal Tools */
+        .tool-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        .initial-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 500;
+            margin: 0 auto 1rem auto;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <span class="navbar-brand-text">Sistem Dukungan IT</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#itTeamModal">Tim IT Kami</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#internalToolsModal">Internal Tools</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login Staf</a>
+                </li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-4 flex-grow-1">
+        <div class="container-fluid px-lg-4">
+            <div class="row justify-content-center">
+                <!-- Kolom Formulir (lebih besar) -->
+                <div class="col-lg-7 col-xl-7 mb-4 mb-lg-1">
+                    <div class="card border-light-subtle shadow-sm h-100">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="card-title mb-0 fw-bold">Buat Laporan / Permintaan Baru</h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <form action="#" method="POST">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="department_id" class="form-label">Departemen / Unit</label>
+                                        <select id="department_id" name="department_id" class="form-select select2" data-placeholder="-- Pilih Departemen --" required>
+                                            <option></option>
+                                            <option value="1">Marketing</option>
+                                            <option value="2">Akunting & Keuangan</option>
+                                            <option value="3">Sumber Daya Manusia</option>
+                                            <option value="4">Produksi</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="category_id" class="form-label">Kategori Masalah</label>
+                                        <select id="category_id" name="category_id" class="form-select select2" data-placeholder="-- Pilih Kategori --" required>
+                                            <option></option>
+                                            <option value="1">Perangkat Keras (Hardware)</option>
+                                            <option value="2">Perangkat Lunak (Software)</option>
+                                            <option value="3">Jaringan (Network)</option>
+                                            <option value="4">Lainnya</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Judul Laporan</label>
+                                    <input type="text" id="title" name="title" class="form-control" required placeholder="Contoh: Printer tidak bisa mencetak">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="description" class="form-label">Deskripsi Detail Masalah</label>
+                                    <textarea id="description" name="description" class="form-control" rows="5" required placeholder="Jelaskan masalah yang Anda alami secara rinci..."></textarea>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg">Kirim Laporan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Daftar Tiket (lebih kecil) -->
+                <div class="col-lg-5 col-xl-5">
+                    <h5 class="mb-3">Tiket Aktif Hari Ini</h5>
+                    <div class="row">
+                        <!-- Contoh Tiket 1 -->
+                        <div class="col-xl-6 mb-3">
+                            <div class="callout callout-primary d-flex justify-content-between align-items-start h-100">
+                                <div class="me-auto position-relative w-100">
+                                    <div class="fw-bold">Aplikasi internal error...</div>
+                                    <small class="text-muted">Marketing &bull; 10:30</small>
+                                </div>
+                                <div class="d-flex flex-column align-items-end ms-2">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="badge bg-primary">On Progress</span>
+                                        <a href="#" class="btn btn-xs btn-success-subtle text-success-emphasis ms-2" title="Follow-up via WhatsApp"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#whatsappFollowUpModal"
+                                       data-ticket-number="IT-20260702-0001"
+                                       data-ticket-department="Marketing"
+                                       data-ticket-title="Aplikasi internal error saat input data"
+                                       data-ticket-description="Setiap kali saya mencoba menyimpan data baru di aplikasi CRM, muncul pesan error 'Unexpected token'.">
+                                            <i class="bi bi-whatsapp"></i>
+                                        </a>
+                                    </div>
+                                    <small class="text-muted text-nowrap">IT-20260702-0001</small>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Contoh Tiket 2 -->
+                        <div class="col-xl-6 mb-3">
+                            <div class="callout callout-success d-flex justify-content-between align-items-start h-100">
+                                <div class="me-auto position-relative w-100">
+                                    <div class="fw-bold">Tidak bisa koneksi...</div>
+                                    <small class="text-muted">Akunting & Keuangan &bull; 09:15</small>
+                                </div>
+                                <div class="d-flex flex-column align-items-end ms-2">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="badge bg-success">Open</span>
+                                        <a href="#" class="btn btn-xs btn-success-subtle text-success-emphasis ms-2" title="Follow-up via WhatsApp"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#whatsappFollowUpModal"
+                                       data-ticket-number="IT-20260702-0002"
+                                       data-ticket-department="Akunting & Keuangan"
+                                       data-ticket-title="Tidak bisa koneksi ke folder sharing"
+                                       data-ticket-description="Folder sharing di server \\FINANCE tidak bisa diakses, muncul pesan 'Network path not found'.">
+                                            <i class="bi bi-whatsapp"></i>
+                                        </a>
+                                    </div>
+                                    <small class="text-muted text-nowrap">IT-20260702-0002</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">&copy; 2026 Sistem Dukungan IT. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Modal Tim IT -->
+    <div class="modal fade" id="itTeamModal" tabindex="-1" aria-labelledby="itTeamModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="itTeamModalLabel">Tim Dukungan IT Kami</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row text-center">
+              <!-- Anggota Tim 1 -->
+              <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card border-0">
+                  <div class="initial-circle bg-primary-subtle text-primary-emphasis">BI</div>
+                  <div class="card-body">
+                    <h6 class="card-title fw-bold">Budi IT</h6>
+                    <p class="card-text text-muted">IT Support</p>
+                    <a href="https://web.whatsapp.com/send?phone=6281234567891" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
+                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Anggota Tim 2 -->
+              <div class="col-md-4 mb-4 mb-md-0">
+                <div class="card border-0">
+                  <div class="initial-circle bg-success-subtle text-success-emphasis">R</div>
+                  <div class="card-body">
+                    <h6 class="card-title fw-bold">Rina</h6>
+                    <p class="card-text text-muted">System Administrator</p>
+                    <a href="https://web.whatsapp.com/send?phone=6281234567890" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
+                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- Anggota Tim 3 -->
+              <div class="col-md-4">
+                <div class="card border-0">
+                  <div class="initial-circle bg-warning-subtle text-warning-emphasis">A</div>
+                  <div class="card-body">
+                    <h6 class="card-title fw-bold">Agus</h6>
+                    <p class="card-text text-muted">Network Specialist</p>
+                    <a href="https://web.whatsapp.com/send?phone=6281234567892" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
+                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Internal Tools -->
+    <div class="modal fade" id="internalToolsModal" tabindex="-1" aria-labelledby="internalToolsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="internalToolsModalLabel"><i class="bi bi-tools me-2"></i>Internal Tools</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body bg-light">
+            <div class="row g-3">
+              <!-- Contoh Kotak Menu 1 -->
+              <div class="col-lg-3 col-md-4 col-6">
+                <a href="#" class="text-decoration-none text-dark">
+                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4">
+                      <i class="bi bi-speedometer2 fs-1 text-primary"></i>
+                      <h6 class="mt-2 mb-0">Aplikasi A</h6>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <!-- Contoh Kotak Menu 2 -->
+              <div class="col-lg-3 col-md-4 col-6">
+                <a href="#" class="text-decoration-none text-dark">
+                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4">
+                      <i class="bi bi-server fs-1 text-success"></i>
+                      <h6 class="mt-2 mb-0">Server Monitoring</h6>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <!-- Contoh Kotak Menu 3 -->
+              <div class="col-lg-3 col-md-4 col-6">
+                <a href="#" class="text-decoration-none text-dark">
+                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
+                    <div class="card-body d-flex flex-column justify-content-center p-4">
+                      <i class="bi bi-database-check fs-1 text-danger"></i>
+                      <h6 class="mt-2 mb-0">Database Admin</h6>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Follow-up WhatsApp -->
+    <div class="modal fade" id="whatsappFollowUpModal" tabindex="-1" aria-labelledby="whatsappFollowUpModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="whatsappFollowUpModalLabel">Follow-up via WhatsApp</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Pilih staf IT yang ingin Anda hubungi:</p>
+            <div class="list-group" id="wa-contact-list">
+                <a href="#" class="list-group-item list-group-item-action" data-wa-number="6281234567891">
+                    <h6 class="mb-1">Budi IT</h6>
+                    <small class="text-muted">IT Support</small>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-wa-number="6281234567893">
+                    <h6 class="mb-1">Siti IT</h6>
+                    <small class="text-muted">IT Support</small>
+                </a>
+                <p class="text-center text-muted d-none">Tidak ada staf IT Support yang tersedia.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        // Inisialisasi global untuk Select2
+        $(document).ready(function() {
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                placeholder: $(this).data('placeholder')
+            });
+        });
+
+        // Script untuk follow-up WhatsApp
+        const whatsappFollowUpModal = document.getElementById('whatsappFollowUpModal');
+        if (whatsappFollowUpModal) {
+            let ticketTitle = '';
+            let ticketDescription = '';
+            let ticketNumber = '';
+            let ticketDepartment = '';
+
+            whatsappFollowUpModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget;
+                ticketTitle = button.getAttribute('data-ticket-title');
+                ticketDescription = button.getAttribute('data-ticket-description');
+                ticketNumber = button.getAttribute('data-ticket-number');
+                ticketDepartment = button.getAttribute('data-ticket-department');
+            });
+
+            const contactList = document.getElementById('wa-contact-list');
+            contactList.addEventListener('click', function(event) {
+                event.preventDefault();
+                const target = event.target.closest('a');
+                if (!target) return;
+
+                const waNumber = target.getAttribute('data-wa-number');
+                const message = `Follow-up untuk tiket *${ticketNumber}*:\n\n*Departemen:* ${ticketDepartment}\n*Judul:* ${ticketTitle}\n*Deskripsi:* ${ticketDescription}`;
+                const encodedMessage = encodeURIComponent(message);
+                const waUrl = `<https://web.whatsapp.com/send?phone=${waNumber}&text=${encodedMessage}>`;
+
+                window.open(waUrl, '_blank');
+
+                // Tutup modal setelah link diklik
+                const modal = bootstrap.Modal.getInstance(whatsappFollowUpModal);
+                modal.hide();
+            });
+        }
+    </script>
+
+</body>
+</html>
