@@ -15,18 +15,211 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <!-- Custom CSS -->
-    <!-- Pastikan file style.css berada di path yang benar, contoh: ./css/style.css -->
-    <link href="css/style.css" rel="stylesheet" />
-
     <style>
-        /* Style untuk kartu di modal Internal Tools */
-        .tool-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        /* ==========================================================================
+           Modern Ticketing App Styles
+           ========================================================================== */
+
+        :root {
+            --primary-color: #3B82F6; /* Biru yang modern dan profesional */
+            --primary-hover: #2563EB;
+            --success-color: #10B981;
+            --success-hover: #059669;
+            --danger-color: #EF4444;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --bg-color: #F9FAFB; /* Latar belakang abu-abu sangat terang */
+            --surface-color: #FFFFFF; /* Warna dasar untuk kartu dan container */
+            --border-color: #D1D5DB;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+
+        /* Atur ukuran font dasar yang lebih kecil untuk mobile */
+        html {
+            font-size: 14px;
+        }
+
+        /* General Body & Typography */
+        body {
+            font-family: var(--font-family);
+            /* Menghapus warna solid dan menggantinya dengan gradien */
+            background: linear-gradient(135deg, #e0f2fe, #dcfce7); /* Gradien dari biru muda ke hijau muda */
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--surface-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .navbar-brand-text {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Style untuk header kartu dengan gradien */
+        .card-header-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--success-color));
+            color: white;
+        }
+
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .form-group, .input-group { margin-bottom: 1.25rem; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-label { font-weight: 600; color: var(--text-primary); }
+        .form-group input, .form-group select, .form-group textarea, .input-group input {
+            width: 100%;
+            padding: 0.6rem 0.8rem; /* Padding diperkecil */
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-sizing: border-box;
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus, .input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .form-group input[readonly], .input-group input[readonly], input.form-control[readonly] {
+            background-color: #e9ecef; /* Warna abu-abu seperti disabled */
+            cursor: not-allowed;
+            border-color: var(--border-color);
+            box-shadow: none;
+        }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+
+        /* Buttons */
+        .btn, .login-btn, .submit-btn {
+            display: inline-block;
+            padding: 0.7rem 1.2rem; /* Padding diperkecil */
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        .login-btn {
+            background-color: var(--primary-color);
+            padding: 0.5rem 1rem;
+        }
+        .login-btn:hover { background-color: var(--primary-hover); }
+
+        .submit-btn {
+            width: 100%;
+            background-color: var(--success-color);
+            font-size: 1.1rem;
+        }
+        .submit-btn:hover { background-color: var(--success-hover); }
+
+        /* Error Message */
+        .error {
+            background-color: #FEE2E2;
+            color: #991B1B;
+            padding: 0.75rem;
+            border: 1px solid var(--danger-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Select2 Override */
+        .select2-container .select2-selection--single {
+            height: auto !important;
+            padding: 0.6rem 0.8rem !important; /* Padding diperkecil */
+            border: 1px solid var(--border-color) !important;
+            border-radius: var(--border-radius) !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: var(--text-primary);
+            line-height: 1.5;
+            padding-left: 0 !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100% !important;
+            top: 0;
+            right: 0.5rem;
+        }
+        .select2-dropdown {
+            border: 1px solid var(--border-color) !important;
+            border-radius: var(--border-radius) !important;
+            box-shadow: var(--box-shadow) !important;
+        }
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: var(--primary-color);
+        }
+
+        /* Callout Styles for Ticket List */
+        .callout {
+            padding: 0.8rem 1rem; /* Padding diperkecil */
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-left-width: .3rem;
+            border-radius: var(--border-radius);
+            background-color: var(--surface-color);
+        }
+
+        .callout-success {
+            border-left-color: var(--success-color);
+        }
+
+        .callout-info {
+            border-left-color: #0ea5e9; /* Info color */
+        }
+
+        .callout-primary {
+            border-left-color: var(--primary-color);
+        }
+
+        .callout-secondary {
+            border-left-color: var(--text-secondary);
+        }
+
+        /* Modern Stat Card Styles */
+        .stat-card-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .text-xs {
+            font-size: .8rem;
         }
         .initial-circle {
             width: 120px;
@@ -39,48 +232,36 @@
             font-weight: 500;
             margin: 0 auto 1rem auto;
         }
+
+        /* Custom style untuk tombol ekstra kecil, menimpa style .btn di atas */
+        .btn-xs {
+            padding: .2rem .45rem;
+            font-size: .8rem;
+            line-height: 1.2;
+        }
+
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <span class="navbar-brand-text">Sistem Dukungan IT</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#itTeamModal">Tim IT Kami</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#internalToolsModal">Internal Tools</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login Staf</a>
-                </li>
-            </ul>
+    <header class="p-3 bg-white shadow-sm">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="#" class="text-dark text-decoration-none fw-bold">Home</a>
+            <a href="#" class="text-primary text-decoration-none fw-bold" data-bs-toggle="modal" data-bs-target="#itTeamModal">Tim IT Kami</a>
         </div>
-      </div>
-    </nav>
+    </header>
 
     <main class="py-4 flex-grow-1">
-        <div class="container-fluid px-lg-4">
+        <div class="container">
             <div class="row justify-content-center">
                 <!-- Kolom Formulir (lebih besar) -->
                 <div class="col-lg-7 col-xl-7 mb-4 mb-lg-1">
                     <div class="card border-light-subtle shadow-sm h-100">
-                        <div class="card-header bg-white py-3">
+                        <div class="card-header card-header-gradient py-3">
                             <h5 class="card-title mb-0 fw-bold">Buat Laporan / Permintaan Baru</h5>
                         </div>
-                        <div class="card-body p-4">
-                            <form action="#" method="POST">
+                        <div class="card-body p-3">
+                            <form id="ticket-form">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="department_id" class="form-label">Departemen / Unit</label>
@@ -115,7 +296,7 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg">Kirim Laporan</button>
+                                    <button type="submit" id="submit-button" class="btn btn-success btn-lg">Kirim Laporan</button>
                                 </div>
                             </form>
                         </div>
@@ -125,55 +306,9 @@
                 <!-- Kolom Daftar Tiket (lebih kecil) -->
                 <div class="col-lg-5 col-xl-5">
                     <h5 class="mb-3">Tiket Aktif Hari Ini</h5>
-                    <div class="row">
-                        <!-- Contoh Tiket 1 -->
-                        <div class="col-xl-6 mb-3">
-                            <div class="callout callout-primary d-flex justify-content-between align-items-start h-100">
-                                <div class="me-auto position-relative w-100">
-                                    <div class="fw-bold">Aplikasi internal error...</div>
-                                    <small class="text-muted">Marketing &bull; 10:30</small>
-                                </div>
-                                <div class="d-flex flex-column align-items-end ms-2">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <span class="badge bg-primary">On Progress</span>
-                                        <a href="#" class="btn btn-xs btn-success-subtle text-success-emphasis ms-2" title="Follow-up via WhatsApp"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#whatsappFollowUpModal"
-                                       data-ticket-number="IT-20260702-0001"
-                                       data-ticket-department="Marketing"
-                                       data-ticket-title="Aplikasi internal error saat input data"
-                                       data-ticket-description="Setiap kali saya mencoba menyimpan data baru di aplikasi CRM, muncul pesan error 'Unexpected token'.">
-                                            <i class="bi bi-whatsapp"></i>
-                                        </a>
-                                    </div>
-                                    <small class="text-muted text-nowrap">IT-20260702-0001</small>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Contoh Tiket 2 -->
-                        <div class="col-xl-6 mb-3">
-                            <div class="callout callout-success d-flex justify-content-between align-items-start h-100">
-                                <div class="me-auto position-relative w-100">
-                                    <div class="fw-bold">Tidak bisa koneksi...</div>
-                                    <small class="text-muted">Akunting & Keuangan &bull; 09:15</small>
-                                </div>
-                                <div class="d-flex flex-column align-items-end ms-2">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <span class="badge bg-success">Open</span>
-                                        <a href="#" class="btn btn-xs btn-success-subtle text-success-emphasis ms-2" title="Follow-up via WhatsApp"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#whatsappFollowUpModal"
-                                       data-ticket-number="IT-20260702-0002"
-                                       data-ticket-department="Akunting & Keuangan"
-                                       data-ticket-title="Tidak bisa koneksi ke folder sharing"
-                                       data-ticket-description="Folder sharing di server \\FINANCE tidak bisa diakses, muncul pesan 'Network path not found'.">
-                                            <i class="bi bi-whatsapp"></i>
-                                        </a>
-                                    </div>
-                                    <small class="text-muted text-nowrap">IT-20260702-0002</small>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row" id="active-tickets-container">
+                        <!-- Kartu tiket akan dimuat di sini oleh JavaScript -->
+                        <p id="tickets-loading-placeholder" class="text-muted">Memuat tiket aktif...</p>
                     </div>
                 </div>
             </div>
@@ -194,97 +329,8 @@
             <h5 class="modal-title" id="itTeamModalLabel">Tim Dukungan IT Kami</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <div class="row text-center">
-              <!-- Anggota Tim 1 -->
-              <div class="col-md-4 mb-4 mb-md-0">
-                <div class="card border-0">
-                  <div class="initial-circle bg-primary-subtle text-primary-emphasis">BI</div>
-                  <div class="card-body">
-                    <h6 class="card-title fw-bold">Budi IT</h6>
-                    <p class="card-text text-muted">IT Support</p>
-                    <a href="https://web.whatsapp.com/send?phone=6281234567891" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
-                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <!-- Anggota Tim 2 -->
-              <div class="col-md-4 mb-4 mb-md-0">
-                <div class="card border-0">
-                  <div class="initial-circle bg-success-subtle text-success-emphasis">R</div>
-                  <div class="card-body">
-                    <h6 class="card-title fw-bold">Rina</h6>
-                    <p class="card-text text-muted">System Administrator</p>
-                    <a href="https://web.whatsapp.com/send?phone=6281234567890" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
-                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <!-- Anggota Tim 3 -->
-              <div class="col-md-4">
-                <div class="card border-0">
-                  <div class="initial-circle bg-warning-subtle text-warning-emphasis">A</div>
-                  <div class="card-body">
-                    <h6 class="card-title fw-bold">Agus</h6>
-                    <p class="card-text text-muted">Network Specialist</p>
-                    <a href="https://web.whatsapp.com/send?phone=6281234567892" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
-                        <i class="bi bi-whatsapp me-1"></i> WhatsApp
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Internal Tools -->
-    <div class="modal fade" id="internalToolsModal" tabindex="-1" aria-labelledby="internalToolsModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="internalToolsModalLabel"><i class="bi bi-tools me-2"></i>Internal Tools</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body bg-light">
-            <div class="row g-3">
-              <!-- Contoh Kotak Menu 1 -->
-              <div class="col-lg-3 col-md-4 col-6">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
-                    <div class="card-body d-flex flex-column justify-content-center p-4">
-                      <i class="bi bi-speedometer2 fs-1 text-primary"></i>
-                      <h6 class="mt-2 mb-0">Aplikasi A</h6>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <!-- Contoh Kotak Menu 2 -->
-              <div class="col-lg-3 col-md-4 col-6">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
-                    <div class="card-body d-flex flex-column justify-content-center p-4">
-                      <i class="bi bi-server fs-1 text-success"></i>
-                      <h6 class="mt-2 mb-0">Server Monitoring</h6>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <!-- Contoh Kotak Menu 3 -->
-              <div class="col-lg-3 col-md-4 col-6">
-                <a href="#" class="text-decoration-none text-dark">
-                  <div class="card text-center h-100 shadow-sm border-0 tool-card">
-                    <div class="card-body d-flex flex-column justify-content-center p-4">
-                      <i class="bi bi-database-check fs-1 text-danger"></i>
-                      <h6 class="mt-2 mb-0">Database Admin</h6>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
+          <div class="modal-body" id="it-team-container">
+            <p class="text-center text-muted">Memuat data tim IT...</p>
           </div>
         </div>
       </div>
@@ -299,17 +345,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+            <!-- Placeholder untuk info tiket -->
+            <div id="follow-up-ticket-info" class="mb-3 p-2 bg-light border rounded"></div>
             <p>Pilih staf IT yang ingin Anda hubungi:</p>
-            <div class="list-group" id="wa-contact-list">
-                <a href="#" class="list-group-item list-group-item-action" data-wa-number="6281234567891">
-                    <h6 class="mb-1">Budi IT</h6>
-                    <small class="text-muted">IT Support</small>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action" data-wa-number="6281234567893">
-                    <h6 class="mb-1">Siti IT</h6>
-                    <small class="text-muted">IT Support</small>
-                </a>
-                <p class="text-center text-muted d-none">Tidak ada staf IT Support yang tersedia.</p>
+            <div class="list-group" id="wa-contact-list">                
             </div>
           </div>
         </div>
@@ -322,42 +361,136 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function() {
+            // ID Spreadsheet untuk opensheet
+            const SPREADSHEET_ID = '1vFerBahLlPI2ca_5eBI_nDays7_7C2yA8ME86BgXe2o';
+
             // Fungsi untuk mengambil dan mengisi data departemen dari API
             function loadDepartments() {
-                // GANTI URL INI dengan alamat API departemen Anda
-                const apiUrl = 'https://script.google.com/macros/s/AKfycbx2NdAqAa8XFwR97UVAIfb1bqfvy0SLf3B126ixsqEWmm-t19aGFAaxqmv4xGuOjZ_Qgw/exec?callback=myFunction';
+                const apiUrl = `https://opensheet.elk.sh/${SPREADSHEET_ID}/department`;
                 const departmentSelect = $('#department_id');
 
-                $.ajax({
-                    url: apiUrl,
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Gagal mengambil data. Pastikan ID Sheet dan Nama Sheet benar, dan sheet sudah di-share untuk publik.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
                         // Hapus opsi statis yang ada (kecuali yang pertama/placeholder)
                         departmentSelect.find('option:not(:first)').remove();
 
                         // Tambahkan setiap departemen dari API sebagai opsi baru
-                        data.forEach(function(department) {
-                            const newOption = new Option(department['Nama Departemen'], department['Kode Departemen'], false, false);
+                        data.forEach(department => {
+                            // Menggunakan 'ID' sebagai nilai, bukan 'Kode Departemen'
+                            const newOption = new Option(department['Nama Departemen'], department['ID'], false, false);
                             departmentSelect.append(newOption);
                         });
 
                         // Inisialisasi Select2 setelah opsi ditambahkan
                         initializeSelect2();
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('Error saat memuat departemen:', textStatus, errorThrown);
-                        // Pesan ini akan tetap muncul jika masalah CORS belum diperbaiki di Google Script
-                        if (textStatus === 'error' && jqXHR.status === 0) {
-                            console.error('Ini kemungkinan besar adalah error CORS. Pastikan server API (Google Script) sudah mengizinkan akses dari origin Anda.');
-                        }
+                    })
+                    .catch(error => {
+                        console.error('Error saat memuat departemen:', error);
                         // Jika gagal, tetap inisialisasi Select2 dengan data yang ada
                         initializeSelect2();
-                    }
-                });
+                    });
+            }
+
+            // Fungsi untuk mengambil dan mengisi data kategori dari API
+            function loadCategories() {
+                const apiUrl = `https://opensheet.elk.sh/${SPREADSHEET_ID}/kategori`;
+                const categorySelect = $('#category_id');
+
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Gagal mengambil data kategori. Pastikan ID Sheet dan Nama Sheet benar, dan sheet sudah di-share untuk publik.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Hapus opsi statis yang ada (kecuali yang pertama/placeholder)
+                        categorySelect.find('option:not(:first)').remove();
+
+                        // Tambahkan setiap kategori dari API sebagai opsi baru
+                        // Asumsi nama kolom di sheet adalah "ID" dan "Nama Kategori"
+                        data.forEach(category => {
+                            const newOption = new Option(category['Nama Kategori'], category['ID'], false, false);
+                            categorySelect.append(newOption);
+                        });
+
+                        initializeSelect2();
+                    })
+                    .catch(error => {
+                        console.error('Error saat memuat kategori:', error);
+                        initializeSelect2();
+                    });
+            }
+
+            // Fungsi untuk memuat data Tim IT dan mengisi kedua modal
+            function loadITTeam() {
+                const apiUrl = `https://opensheet.elk.sh/${SPREADSHEET_ID}/tim_it`;
+                const teamContainer = $('#it-team-container');
+                const waContactList = $('#wa-contact-list');
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        teamContainer.empty().append('<div class="row text-center"></div>'); // Siapkan container row
+                        const teamRow = teamContainer.find('.row');
+                        waContactList.empty();
+
+                        if (data.length === 0) {
+                            teamRow.html('<p class="text-muted">Tidak ada data tim IT yang tersedia.</p>');
+                            waContactList.html('<p class="text-center text-muted">Tidak ada staf IT yang tersedia.</p>');
+                            return;
+                        }
+
+                        // Asumsi kolom di sheet: 'Nama Lengkap' dan 'No HP'
+                        data.forEach(member => {
+                            const name = member['Nama Lengkap'] || 'Nama Tidak Ada';
+                            const phone = member['No HP'] || '';
+                            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+                            // 1. Buat kartu untuk modal "Tim IT Kami"
+                            const teamCard = `
+                                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                                    <div class="card border-0">
+                                        <div class="initial-circle bg-primary-subtle text-primary-emphasis">${initials}</div>
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">${name}</h6>
+                                            <p class="card-text text-muted">IT Support</p>
+                                            <a href="https://wa.me/${phone}" target="_blank" class="btn btn-sm btn-success-subtle text-success-emphasis">
+                                                <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            teamRow.append(teamCard);
+
+                            // 2. Buat daftar untuk modal "Follow-up WhatsApp"
+                            const contactItem = `
+                                <a href="https://wa.me/${phone}" target="_blank" class="list-group-item list-group-item-action">
+                                    <h6 class="mb-1">${name}</h6>
+                                    <small class="text-muted">IT Support</small>
+                                </a>
+                            `;
+                            waContactList.append(contactItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error saat memuat tim IT:', error);
+                        const errorMessage = '<p class="text-danger">Gagal memuat data tim IT.</p>';
+                        teamContainer.html(errorMessage);
+                        waContactList.html(errorMessage);
+                    });
             }
 
             // Fungsi untuk inisialisasi Select2
@@ -368,43 +501,171 @@
                 });
             }
 
+            // Fungsi untuk memuat tiket aktif dari Google Sheet
+            function loadActiveTickets() {
+                // Asumsi nama sheet adalah 'TiketMasuk'
+                const apiUrl = `https://opensheet.elk.sh/${SPREADSHEET_ID}/ticket`;
+                const container = $('#active-tickets-container');
+
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        container.empty(); // Hapus placeholder "Memuat..."
+
+                        if (data.length === 0) {
+                            container.html('<p class="text-muted">Tidak ada tiket aktif saat ini.</p>');
+                            return;
+                        }
+
+                        // Ambil 10 tiket terakhir
+                        const latestTickets = data.slice(-10).reverse();
+
+                        latestTickets.forEach(ticket => {
+                            // Asumsi nama kolom di sheet: Tanggal, NoTiket, Judul, Deskripsi, Departemen, Kategori, Status
+                            const status = ticket['status'] || 'Open';
+                            const department = ticket['departmen_id'] || 'N/A';
+                            const ticketNumber = ticket['nomor'] || 'N/A';
+                            const title = ticket['title'] || 'Tanpa Judul';
+                            const description = ticket['description'] || '';
+                            const time = new Date(ticket['timestamps']).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                            let badgeClass = 'bg-secondary';
+                            let calloutClass = 'callout-secondary'; // Default
+                            if (status === 'Open') { badgeClass = 'bg-danger'; calloutClass = 'callout-danger'; }
+                            if (status === 'On Progress') { badgeClass = 'bg-primary'; calloutClass = 'callout-primary'; }
+                            if (status === 'Resolved') { badgeClass = 'bg-success'; calloutClass = 'callout-success'; }
+
+                            const ticketCard = `
+                                <div class="col-12 col-md-6 mb-3 d-flex">
+                                    <div class="callout ${calloutClass} h-100 w-100 d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="me-2">
+                                                <div class="fw-bold">${title}</div>
+                                                <small class="text-muted">${department} &bull; ${time}</small>
+                                            </div>
+                                            <div class="d-flex align-items-center flex-shrink-0">
+                                                <span class="badge ${badgeClass}">${status}</span>
+                                                <a href="#" class="btn btn-xs btn-success-subtle text-success-emphasis ms-2" title="Follow-up via WhatsApp"
+                                                   data-bs-toggle="modal" data-bs-target="#whatsappFollowUpModal"
+                                                   data-ticket-number="${ticketNumber}" data-ticket-department="${department}"
+                                                   data-ticket-title="${title}" data-ticket-description="${description}">
+                                                    <i class="bi bi-whatsapp"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="mt-auto pt-2 border-top border-light-subtle">
+                                            <small class="text-muted d-block text-center">${ticketNumber}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            container.append(ticketCard);
+                        });
+
+                        // Tampilkan notifikasi toast bahwa data berhasil dimuat
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 2500,
+                            timerProgressBar: true
+                        });
+
+                        Toast.fire({ icon: 'success', title: 'Daftar tiket berhasil diperbarui' });
+                    })
+                    .catch(error => {
+                        console.error('Error saat memuat tiket:', error);
+                        container.html('<p class="text-danger">Gagal memuat tiket aktif.</p>');
+                    });
+            }
+
             loadDepartments();
+            loadCategories();
+            loadActiveTickets();
+            loadITTeam();
+
+
+            // Fungsi untuk menangani pengiriman form
+            $('#ticket-form').on('submit', function(event) {
+                event.preventDefault(); // Mencegah form melakukan submit standar
+
+                const form = $(this);
+                const submitButton = $('#submit-button');
+                const originalButtonText = submitButton.html();
+
+                // Ganti URL ini dengan URL Web App dari Google Apps Script Anda
+                const postApiUrl = 'https://script.google.com/macros/s/AKfycby0BbW6TKyx9MEvtjO3bvCDoOaHzSv-wIqBrcnTn35btwQMZikijqdLiNebuYjxOl11NA/exec';
+
+                // Tampilkan status loading pada tombol
+                submitButton.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mengirim...');
+
+                // Kumpulkan data dari form
+                // Buat nomor tiket sementara berbasis waktu (misal: T240703-113015)
+                const now = new Date();
+                const ticketNumber = `T${now.getFullYear().toString().slice(-2)}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}-${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}${now.getSeconds().toString().padStart(2,'0')}`;
+
+                const formData = {
+                    nomor: ticketNumber,
+                    department_id: $('#department_id').val(),
+                    category_id: $('#category_id').val(),
+                    title: $('#title').val(),
+                    description: $('#description').val(),
+                    status: 'Open' // Status default untuk tiket baru
+                };
+
+                // Kirim data menggunakan Fetch API
+                fetch(postApiUrl, {
+                        method: 'POST',
+                        // Hapus mode: 'no-cors' agar bisa membaca respons
+                        body: JSON.stringify(formData),
+                        headers: {
+                            'Content-Type': 'text/plain;charset=utf-8', // Gunakan text/plain untuk menghindari preflight CORS
+                        },
+                    })
+                .then(response => response.json()) // Ubah respons menjadi JSON
+                .then(data => {
+                    // Sekarang kita bisa membaca respons dari server
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Laporan Anda telah berhasil dikirim.',
+                        });
+                        form[0].reset(); // Reset form
+                        $('.select2').val(null).trigger('change'); // Reset Select2
+                    } else {
+                        // Tampilkan error yang sebenarnya dari Google Script
+                        throw new Error(data.message || 'Terjadi kesalahan yang tidak diketahui di server.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Terjadi kesalahan saat mengirim laporan: ' + error.message, 'error');
+                })
+                .finally(() => {
+                    // Kembalikan tombol ke keadaan semula
+                    submitButton.prop('disabled', false).html(originalButtonText);
+                });
+            });
+
+            // Event listener untuk modal follow-up WhatsApp
+            $('#whatsappFollowUpModal').on('show.bs.modal', function (event) {
+                // Tombol yang memicu modal
+                const button = $(event.relatedTarget); 
+                
+                // Ekstrak informasi dari atribut data-*
+                const ticketNumber = button.data('ticket-number');
+                const ticketTitle = button.data('ticket-title');
+                
+                const modal = $(this);
+                const ticketInfoContainer = modal.find('#follow-up-ticket-info');
+
+                // Perbarui konten modal dengan info tiket
+                const ticketInfoHtml = `<small class="text-muted d-block">Follow-up untuk tiket:</small><strong class="d-block">${ticketNumber}</strong><span class="d-block">${ticketTitle}</span>`;
+                ticketInfoContainer.html(ticketInfoHtml);
+            });
         });
 
-        // Script untuk follow-up WhatsApp
-        const whatsappFollowUpModal = document.getElementById('whatsappFollowUpModal');
-        if (whatsappFollowUpModal) {
-            let ticketTitle = '';
-            let ticketDescription = '';
-            let ticketNumber = '';
-            let ticketDepartment = '';
-
-            whatsappFollowUpModal.addEventListener('show.bs.modal', event => {
-                const button = event.relatedTarget;
-                ticketTitle = button.getAttribute('data-ticket-title');
-                ticketDescription = button.getAttribute('data-ticket-description');
-                ticketNumber = button.getAttribute('data-ticket-number');
-                ticketDepartment = button.getAttribute('data-ticket-department');
-            });
-
-            const contactList = document.getElementById('wa-contact-list');
-            contactList.addEventListener('click', function(event) {
-                event.preventDefault();
-                const target = event.target.closest('a');
-                if (!target) return;
-
-                const waNumber = target.getAttribute('data-wa-number');
-                const message = `Follow-up untuk tiket *${ticketNumber}*:\n\n*Departemen:* ${ticketDepartment}\n*Judul:* ${ticketTitle}\n*Deskripsi:* ${ticketDescription}`;
-                const encodedMessage = encodeURIComponent(message);
-                const waUrl = `<https://web.whatsapp.com/send?phone=${waNumber}&text=${encodedMessage}>`;
-
-                window.open(waUrl, '_blank');
-
-                // Tutup modal setelah link diklik
-                const modal = bootstrap.Modal.getInstance(whatsappFollowUpModal);
-                modal.hide();
-            });
-        }
     </script>
 
 </body>
