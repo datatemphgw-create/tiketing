@@ -476,14 +476,18 @@
                             teamRow.append(teamCard);
 
                             // 2. Buat daftar untuk modal "Follow-up WhatsApp"
+                            // Hapus href, kita akan menanganinya dengan JS
                             const contactItem = `
-                                <a href="https://wa.me/${phone}" target="_blank" class="list-group-item list-group-item-action">
+                                <a href="#" class="list-group-item list-group-item-action" data-phone-number="${phone}">
                                     <h6 class="mb-1">${name}</h6>
                                     <small class="text-muted">IT Support</small>
                                 </a>
                             `;
                             waContactList.append(contactItem);
                         });
+
+                        // Pastikan event listener untuk klik sudah terpasang
+                        attachWhatsAppClickListener();
                     })
                     .catch(error => {
                         console.error('Error saat memuat tim IT:', error);
@@ -585,6 +589,7 @@
             loadITTeam();
 
 
+
             // Fungsi untuk menangani pengiriman form
             $('#ticket-form').on('submit', function(event) {
                 event.preventDefault(); // Mencegah form melakukan submit standar
@@ -648,8 +653,12 @@
                 });
             });
 
+            // Variabel global di dalam scope document.ready untuk menyimpan info tiket
+            let currentTicketNumber = '';
+            let currentTicketTitle = '';
+
             // Event listener untuk modal follow-up WhatsApp
-            $('#whatsappFollowUpModal').on('show.bs.modal', function (event) {
+            $('#whatsappFollowUpModal').on('show.bs.modal', function(event) {
                 // Tombol yang memicu modal
                 const button = $(event.relatedTarget); 
                 
@@ -657,6 +666,10 @@
                 const ticketNumber = button.data('ticket-number');
                 const ticketTitle = button.data('ticket-title');
                 
+                // Simpan ke variabel global
+                currentTicketNumber = ticketNumber;
+                currentTicketTitle = ticketTitle;
+
                 const modal = $(this);
                 const ticketInfoContainer = modal.find('#follow-up-ticket-info');
 
@@ -664,6 +677,27 @@
                 const ticketInfoHtml = `<small class="text-muted d-block">Follow-up untuk tiket:</small><strong class="d-block">${ticketNumber}</strong><span class="d-block">${ticketTitle}</span>`;
                 ticketInfoContainer.html(ticketInfoHtml);
             });
+
+            // Fungsi untuk memasang event listener pada daftar kontak WhatsApp
+            function attachWhatsAppClickListener() {
+                const waContactList = $('#wa-contact-list');
+                // Hapus listener lama untuk menghindari duplikasi, lalu pasang yang baru
+                waContactList.off('click').on('click', 'a.list-group-item', function(event) {
+                    event.preventDefault();
+                    const phoneNumber = $(this).data('phone-number');
+                    
+                    // Buat pesan dengan info tiket yang sudah disimpan
+                    const message = `Halo, saya ingin follow-up untuk tiket *${currentTicketNumber}* dengan judul: *"${currentTicketTitle}"*. Terima kasih.`;
+                    const encodedMessage = encodeURIComponent(message);
+                    
+                    // Buka link WhatsApp di tab baru
+                    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+
+                    // Tutup modal setelah link diklik
+                    const modalInstance = bootstrap.Modal.getInstance($('#whatsappFollowUpModal'));
+                    modalInstance.hide();
+                });
+            }
         });
 
     </script>
