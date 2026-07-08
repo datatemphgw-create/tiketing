@@ -607,7 +607,7 @@
                 // Kumpulkan data dari form
                 const now = new Date();
                 // Buat nomor tiket dengan prefix 'S-' dan format berbasis waktu (misal: S-240703-113015)
-                const ticketNumber = `S-${now.getFullYear().toString().slice(-2)}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}-${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}${now.getSeconds().toString().padStart(2,'0')}`;
+                const ticketNumber = `S-IT-${now.getFullYear().toString().slice(-2)}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}-${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}${now.getSeconds().toString().padStart(2,'0')}`;
 
                 const formData = {
                     nomor: ticketNumber,
